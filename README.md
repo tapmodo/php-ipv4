@@ -15,6 +15,14 @@ Identify, convert, and enumerate IPv4 IP addresses and subnets
     Ipv4_Subnet::ContainsAddress($sn,$ip)
     Ipv4_Subnet::ContainsAddress('192.168.1.0/27','192.168.1.246')
 
+    // Test if two IPs are on the same network
+    $netmask = '255.255.255.0';
+    Ipv4_Subnet::ContainsAddress(new Ipv4_Subnet($ip1,$netmask),$ip2)
+
+    // Can be written in numerous ways...
+    Ipv4_Subnet::ContainsAddress("{$ip1}/24",$ip2)
+    Ipv4_Subnet::fromString("{$ip1}/24")->contains($ip2)
+
     // Subnet information
     $sn->getNetwork()
     $sn->getNetmask()
@@ -26,3 +34,8 @@ Identify, convert, and enumerate IPv4 IP addresses and subnets
     // Enumerate subnet addresses
     $ips = $sn->getIterator();
     foreach($ips as $addr) ...
+
+    // Count number of usable IPs on subnet (implements Countable)
+    $sn->getTotalHosts()
+    $sn->count()
+    count($sn)
