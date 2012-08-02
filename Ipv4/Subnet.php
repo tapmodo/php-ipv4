@@ -37,8 +37,8 @@ class Ipv4_Subnet
     if (strpos($data,'/')) {
       list($network,$cidr) = explode('/',$data,2);
 
-    if (!($cidr >= 0 && $cidr <= 32))
-      throw new Exception(self::ERROR_CIDR_FORMAT);
+      if (!($cidr >= 0 && $cidr <= 32))
+        throw new Exception(self::ERROR_CIDR_FORMAT);
 
       $this->setNetwork($network);
       $this->sn = bindec(str_pad(str_pad("", $cidr, "1"), 32, "0"));
