@@ -14,23 +14,23 @@ class Ipv4_SubnetIterator implements Iterator
   }
 
   function rewind() {
-      $this->position = 0;
+    $this->position = 0;
   }
 
   function current() {
-      return long2ip($this->low_dec + $this->position);
+    return long2ip($this->low_dec + $this->position);
   }
 
   function key() {
-      return $this->position;
+    return $this->position;
   }
 
   function next() {
-      ++$this->position;
+    ++$this->position;
   }
 
   function valid() {
-      return (($this->low_dec + $this->position) <= $this->hi_dec);
+    return (($this->low_dec + $this->position) <= $this->hi_dec);
   }
 }
 
