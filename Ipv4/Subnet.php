@@ -2,11 +2,30 @@
 
 class Ipv4_Subnet
 {
-  private $nw, $sn;
-
+  /**
+   * Define some error messages as class constants
+   */
   const ERROR_NETWORK_FORMAT = 'IP format incorrect';
   const ERROR_CIDR_FORMAT = 'Invalid CIDR format';
   const ERROR_SUBNET_FORMAT = 'Invalid Subnet format';
+
+  /**
+   * nw
+   * Internal storage of network in long format
+   *
+   * @var float
+   * @access private
+   */
+  private $nw = 0;
+
+  /**
+   * sn
+   * Internal storage of subnet in long format
+   *
+   * @var float
+   * @access private
+   */
+  private $sn = 0;
 
   /**
    * __construct
