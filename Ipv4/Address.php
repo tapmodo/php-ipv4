@@ -35,7 +35,11 @@ class Ipv4_Address
   {
     return str_pad(decbin($this->ip_long),32,0,STR_PAD_LEFT);
   }
-  
+
+  function __toString()
+  {
+    return $this->toDottedQuad();
+  }
 
   private function __construct($long)
   {
