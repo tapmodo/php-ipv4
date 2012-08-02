@@ -66,22 +66,24 @@ class Ipv4_Subnet
    * @return self
    */
   public function fromString($data) {
+    // Validate that the input matches an expected pattern
     if (!preg_match('!^([0-9]{1,3}\.){3}[0-9]{1,3}(( ([0-9]{1,3}\.){3}[0-9]{1,3})|(/[0-9]{1,2}))$!',$data))
       throw new Exception(self::ERROR_NETWORK_FORMAT);
 
+    // Parse one of two formats possible, first is /CIDR format
     if (strpos($data,'/')) {
       list($network,$cidr) = explode('/',$data,2);
 
-      if (!($cidr >= 0 && $cidr <= 32))
-        throw new Exception(self::ERROR_CIDR_FORMAT);
-
       $this->setNetwork($network);
-      $this->sn = bindec(str_pad(str_pad("", $cidr, "1"), 32, "0"));
-    } else {
+      $this->sn = ip2long(self::CIDRtoIP($cidr));
+    }
+    // Second format is network space subnet
+    else {
       list($network,$subnet) = explode(' ',$data,2);
       $this->setNetwork($network);
       $this->setNetmask($subnet);
     }
+
     return $this;
   }
 
