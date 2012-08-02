@@ -14,8 +14,7 @@ class Ipv4_Address
    * @access public
    * @return Ipv4_Address
    */
-  static function fromDottedQuad($data)
-  {
+  static function fromDottedQuad($data) {
     if ($long = ip2long($data)) return new self($long);
     throw new Exception(self::ERROR_ADDR_FORMAT);
   }
@@ -29,8 +28,7 @@ class Ipv4_Address
    * @access public
    * @return Ipv4_Address
    */
-  static function fromDecimal($data)
-  {
+  static function fromDecimal($data) {
     return new self((real)$data);
   }
 
@@ -43,8 +41,7 @@ class Ipv4_Address
    * @access public
    * @return Ipv4_Address
    */
-  static function fromBinary($data)
-  {
+  static function fromBinary($data) {
     return new self(bindec($data));
   }
 
@@ -55,8 +52,7 @@ class Ipv4_Address
    * @access public
    * @return string
    */
-  public function toDottedQuad()
-  {
+  public function toDottedQuad() {
     return long2ip($this->ip_long);
   }
 
@@ -67,8 +63,7 @@ class Ipv4_Address
    * @access public
    * @return real
    */
-  public function toDecimal()
-  {
+  public function toDecimal() {
     return $this->ip_long;
   }
 
@@ -79,8 +74,7 @@ class Ipv4_Address
    * @access public
    * @return string
    */
-  public function toBinary()
-  {
+  public function toBinary() {
     return str_pad(decbin($this->ip_long),32,0,STR_PAD_LEFT);
   }
 
@@ -91,8 +85,7 @@ class Ipv4_Address
    * @access public
    * @return string
    */
-  public function __toString()
-  {
+  public function __toString() {
     return $this->toDottedQuad();
   }
 
@@ -104,8 +97,7 @@ class Ipv4_Address
    * @access private
    * @return void
    */
-  private function __construct($long)
-  {
+  private function __construct($long) {
     $this->ip_long = $long;
   }
 
