@@ -60,7 +60,7 @@ class Ipv4_Subnet
    * CIDRtoIP
    * Static method converts CIDR to dotted-quad IP notation
    *
-   * @param mixed $cidr
+   * @param int $cidr
    * @static
    * @access public
    * @return string
@@ -247,7 +247,7 @@ class Ipv4_Subnet
    * @return int
    */
   public function getTotalHosts() {
-    return (bindec(str_pad("",(32-$this->getNetmaskCidr()),1)) - 1);
+    return (bindec(str_pad('',(32-$this->getNetmaskCidr()),1)) - 1);
   }
 
   /**
