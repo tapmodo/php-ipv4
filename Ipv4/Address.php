@@ -7,16 +7,8 @@ class Ipv4_Address
 
   static function fromDottedQuad($data)
   {
-    if (!preg_match('/^([0-9]{1,3}\.){3}[0-9]{1,3}$/',$data))
-      throw new Exception(self::ERROR_ADDR_FORMAT);
-
-    $octets = explode('.',$data);
-    $rv = '';
-
-    foreach($octets as $v)
-      $rv.= str_pad(decbin($v),8,'0',STR_PAD_LEFT);
-
-    return new self(bindec($rv));
+    if ($long = ip2long($data)) return new self($long);
+    throw new Exception(self::ERROR_ADDR_FORMAT);
   }
   
   static function fromDecimal($data)
