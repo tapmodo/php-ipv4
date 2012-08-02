@@ -39,7 +39,7 @@ class Ipv4_Subnet
   public function __construct($n=null,$s=null) {
     if ($n instanceof Ipv4_Address) $n = $n->toDottedQuad();
     if ($s instanceof Ipv4_Address) $s = $s->toDottedQuad();
-    if (is_string($n) and !$s) $this->fromString($n);
+    if (is_string($n) and !$s) $this->setFromString($n);
       elseif ($n and $s) $this->setNetwork($n)->setNetmask($s);
   }
 
@@ -53,21 +53,41 @@ class Ipv4_Subnet
    * @return string
    */
   static function CIDRtoIP($cidr) {
-    if (!($cidr >= 0 && $cidr <= 32))
+    if (!($cidr >= 0 and $cidr <= 32))
       throw new Exception(self::ERROR_CIDR_FORMAT);
 
     return long2ip(bindec(str_pad(str_pad('', $cidr, '1'), 32, '0')));
   }
 
   /**
-   * fromString
+   * ContainsAddress
+   * Static method to determine if an IP is on a subnet
+   *
+   * @param mixed $sn
+   * @param mixed $ip
+   * @static
+   * @access public
+   * @return bool
+   */
+  static function ContainsAddress($sn,$ip) {
+    if (is_string($sn)) $sn = Ipv4_Subnet::fromString($sn);
+    if (is_string($ip)) $ip = Ipv4_Address::fromDottedQuad($ip);
+    if (!$sn instanceof Ipv4_Subnet) throw new Exception(self::ERROR_SUBNET_FORMAT);
+    if (!$ip instanceof Ipv4_Address) throw new Exception(Ipv4_Address::ERROR_ADDR_FORMAT);
+    $sn_dec = ip2long($sn->getNetmask());
+
+    return (($ip->toDecimal() & $sn_dec) == (ip2long($sn->getNetwork()) & $sn_dec));
+  }
+
+  /**
+   * setFromString
    * Parse subnet string
    *
    * @param string $data
    * @access public
    * @return self
    */
-  public function fromString($data) {
+  public function setFromString($data) {
     // Validate that the input matches an expected pattern
     if (!preg_match('!^([0-9]{1,3}\.){3}[0-9]{1,3}(( ([0-9]{1,3}\.){3}[0-9]{1,3})|(/[0-9]{1,2}))$!',$data))
       throw new Exception(self::ERROR_NETWORK_FORMAT);
@@ -87,6 +107,18 @@ class Ipv4_Subnet
     }
 
     return $this;
+  }
+
+  /**
+   * contains
+   * Method to check if an IP is on this network
+   *
+   * @param mixed $ip
+   * @access public
+   * @return bool
+   */
+  public function contains($ip) {
+    return self::ContainsAddress($this,$ip);
   }
 
   /**
