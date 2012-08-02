@@ -32,25 +32,23 @@ class Ipv4_Address
 
   function toDottedQuad()
   {
-    $bval = str_pad(decbin($this->ip_dec),32,'0',STR_PAD_LEFT);
-    return implode('.',array_map('bindec',
-        explode('.',rtrim(chunk_split($bval,8,'.'),'.'))));
+    return long2ip($this->ip_long);
   }
   
   function toDecimal()
   {
-    return $this->ip_dec;
+    return $this->ip_long;
   }
   
   function toBinary()
   {
-    return str_pad(decbin($this->ip_dec),32,0,STR_PAD_LEFT);
+    return str_pad(decbin($this->ip_long),32,0,STR_PAD_LEFT);
   }
   
 
   private function __construct($long)
   {
-    $this->ip_dec = $long;
+    $this->ip_long = $long;
   }
   
 }
