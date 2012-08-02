@@ -28,7 +28,7 @@ class Ipv4_Subnet
    *
    * @param string $data
    * @access public
-   * @return void
+   * @return self
    */
   public function fromString($data) {
     if (!preg_match('!^([0-9]{1,3}\.){3}[0-9]{1,3}(( ([0-9]{1,3}\.){3}[0-9]{1,3})|(/[0-9]{1,2}))$!',$data))
@@ -47,6 +47,7 @@ class Ipv4_Subnet
       $this->setNetwork($network);
       $this->setNetmask($subnet);
     }
+    return $this;
   }
 
   /**
