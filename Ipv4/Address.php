@@ -21,7 +21,6 @@ class Ipv4_Address
     return new self(bindec($data));
   }
   
-
   function toDottedQuad()
   {
     return long2ip($this->ip_long);

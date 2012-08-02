@@ -13,6 +13,7 @@ class Ipv4_Subnet
     if (is_string($n) and !$s) $this->fromString($n);
       elseif ($n and $s) $this->setNetwork($n)->setNetmask($s);
   }
+
   function fromString($data)
   {
     if (!preg_match('!^([0-9]{1,3}\.){3}[0-9]{1,3}(( ([0-9]{1,3}\.){3}[0-9]{1,3})|(/[0-9]{1,2}))$!',$data))
@@ -32,11 +33,13 @@ class Ipv4_Subnet
       $this->setNetmask($subnet);
     }
   }
+
   function setNetwork($data)
   {
     $this->nw = Ipv4_Address::fromDottedQuad($data)->toDecimal();
     return $this;
   }
+
   function setNetmask($data)
   {
     $data = Ipv4_Address::fromDottedQuad($data);
@@ -47,7 +50,7 @@ class Ipv4_Subnet
     $this->sn = $data->toDecimal();
     return $this;
   }
-  
+
   function getNetmask()
   {
     return Ipv4_Address::fromDecimal($this->sn)->toDottedQuad();
