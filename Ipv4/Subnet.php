@@ -44,6 +44,19 @@ class Ipv4_Subnet
   }
 
   /**
+   * fromString
+   * Primarily for chaining and consistency
+   *
+   * @param mixed $data
+   * @static
+   * @access public
+   * @return Ipv4_Subnet
+   */
+  static function fromString($data) {
+    return new Ipv4_Subnet($data);
+  }
+
+  /**
    * CIDRtoIP
    * Static method converts CIDR to dotted-quad IP notation
    *
