@@ -42,6 +42,22 @@ class Ipv4_Subnet
   }
 
   /**
+   * CIDRtoIP
+   * Static method converts CIDR to dotted-quad IP notation
+   *
+   * @param mixed $cidr
+   * @static
+   * @access public
+   * @return string
+   */
+  static function CIDRtoIP($cidr) {
+    if (!($cidr >= 0 && $cidr <= 32))
+      throw new Exception(self::ERROR_CIDR_FORMAT);
+
+    return long2ip(bindec(str_pad(str_pad('', $cidr, '1'), 32, '0')));
+  }
+
+  /**
    * fromString
    * Parse subnet string
    *
