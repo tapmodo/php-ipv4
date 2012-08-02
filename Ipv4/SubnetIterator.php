@@ -18,8 +18,7 @@ class Ipv4_SubnetIterator implements Iterator
   }
 
   function current() {
-      $ip_dec = $this->low_dec + $this->position;
-      return Ipv4_Address::fromDecimal($ip_dec)->toDottedQuad();
+      return long2ip($this->low_dec + $this->position);
   }
 
   function key() {
