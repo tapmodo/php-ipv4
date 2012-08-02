@@ -55,7 +55,7 @@ class Ipv4_Address
    * @access public
    * @return string
    */
-  function toDottedQuad()
+  public function toDottedQuad()
   {
     return long2ip($this->ip_long);
   }
@@ -67,7 +67,7 @@ class Ipv4_Address
    * @access public
    * @return real
    */
-  function toDecimal()
+  public function toDecimal()
   {
     return $this->ip_long;
   }
@@ -79,7 +79,7 @@ class Ipv4_Address
    * @access public
    * @return string
    */
-  function toBinary()
+  public function toBinary()
   {
     return str_pad(decbin($this->ip_long),32,0,STR_PAD_LEFT);
   }
@@ -88,10 +88,10 @@ class Ipv4_Address
    * __toString
    * Magic method returns dotted quad IP address
    *
-   * @access protected
+   * @access public
    * @return string
    */
-  function __toString()
+  public function __toString()
   {
     return $this->toDottedQuad();
   }
