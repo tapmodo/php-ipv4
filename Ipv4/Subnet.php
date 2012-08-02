@@ -37,6 +37,8 @@ class Ipv4_Subnet
    * @return void
    */
   public function __construct($n=null,$s=null) {
+    if ($n instanceof Ipv4_Address) $n = $n->toDottedQuad();
+    if ($s instanceof Ipv4_Address) $s = $s->toDottedQuad();
     if (is_string($n) and !$s) $this->fromString($n);
       elseif ($n and $s) $this->setNetwork($n)->setNetmask($s);
   }
