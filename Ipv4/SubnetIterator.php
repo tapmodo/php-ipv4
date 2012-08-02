@@ -1,4 +1,4 @@
-<?php
+<?php /* vim: set ts=2 sw=2 tw=0 et :*/
 
 class Ipv4_SubnetIterator implements Iterator
 {
