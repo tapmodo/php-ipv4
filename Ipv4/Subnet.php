@@ -1,6 +1,17 @@
 <?php /* vim: set ts=2 sw=2 tw=0 et :*/
 
-class Ipv4_Subnet
+if (!class_exists('Ipv4_Address'))
+  require_once(dirname(__FILE__).'/Address.php');
+
+/**
+ * Ipv4_Subnet 
+ * Class for identifying and enumerating an IPv4 Subnet
+ * 
+ * @uses Countable
+ * @package Ipv4
+ * @license MIT
+ */
+class Ipv4_Subnet implements Countable
 {
   /**
    * Define some error messages as class constants
@@ -37,8 +48,8 @@ class Ipv4_Subnet
    * @return void
    */
   public function __construct($n=null,$s=null) {
-    if ($n instanceof Ipv4_Address) $n = $n->toDottedQuad();
-    if ($s instanceof Ipv4_Address) $s = $s->toDottedQuad();
+    if ($n instanceof Ipv4_Address) $n = $n->toString();
+    if ($s instanceof Ipv4_Address) $s = $s->toString();
     if (is_string($n) and !$s) $this->setFromString($n);
       elseif ($n and $s) $this->setNetwork($n)->setNetmask($s);
   }
@@ -84,12 +95,12 @@ class Ipv4_Subnet
    */
   static function ContainsAddress($sn,$ip) {
     if (is_string($sn)) $sn = Ipv4_Subnet::fromString($sn);
-    if (is_string($ip)) $ip = Ipv4_Address::fromDottedQuad($ip);
+    if (is_string($ip)) $ip = Ipv4_Address::fromString($ip);
     if (!$sn instanceof Ipv4_Subnet) throw new Exception(self::ERROR_SUBNET_FORMAT);
     if (!$ip instanceof Ipv4_Address) throw new Exception(Ipv4_Address::ERROR_ADDR_FORMAT);
     $sn_dec = ip2long($sn->getNetmask());
 
-    return (($ip->toDecimal() & $sn_dec) == (ip2long($sn->getNetwork()) & $sn_dec));
+    return (($ip->toLong() & $sn_dec) == (ip2long($sn->getNetwork()) & $sn_dec));
   }
 
   /**
@@ -143,7 +154,7 @@ class Ipv4_Subnet
    * @return self
    */
   public function setNetwork($data) {
-    $this->nw = Ipv4_Address::fromDottedQuad($data)->toDecimal();
+    $this->nw = Ipv4_Address::fromString($data)->toLong();
     return $this;
   }
 
@@ -156,12 +167,12 @@ class Ipv4_Subnet
    * @return self
    */
   public function setNetmask($data) {
-    $data = Ipv4_Address::fromDottedQuad($data);
+    $data = Ipv4_Address::fromString($data);
 
     if (!preg_match('/^1*0*$/',$data->toBinary()))
       throw new Exception(self::ERROR_SUBNET_FORMAT);
 
-    $this->sn = $data->toDecimal();
+    $this->sn = $data->toLong();
     return $this;
   }
 
@@ -173,7 +184,7 @@ class Ipv4_Subnet
    * @return string
    */
   public function getNetmask() {
-    return Ipv4_Address::fromDecimal($this->sn)->toDottedQuad();
+    return long2ip($this->sn);
   }
 
   /**
@@ -195,9 +206,9 @@ class Ipv4_Subnet
    * @return string
    */
   public function getNetwork() {
-    $nw_bin = Ipv4_Address::fromDecimal($this->nw)->toBinary();
+    $nw_bin = Ipv4_Address::fromLong($this->nw)->toBinary();
     $nw_bin = (str_pad(substr($nw_bin,0,$this->getNetmaskCidr()),32,0));
-    return Ipv4_Address::fromBinary($nw_bin)->toDottedQuad();
+    return Ipv4_Address::fromBinary($nw_bin)->toString();
   }
 
   /**
@@ -208,9 +219,9 @@ class Ipv4_Subnet
    * @return string
    */
   public function getFirstHostAddr() {
-    $bin_net = Ipv4_Address::fromDottedQuad($this->getNetwork())->toBinary();
+    $bin_net = Ipv4_Address::fromString($this->getNetwork())->toBinary();
     $bin_first = (str_pad(substr($bin_net,0,31),32,1));
-    return Ipv4_Address::fromBinary($bin_first)->toDottedQuad();
+    return Ipv4_Address::fromBinary($bin_first)->toString();
   }
 
   /**
@@ -221,9 +232,9 @@ class Ipv4_Subnet
    * @return string
    */
   public function getLastHostAddr() {
-    $bin_bcast = Ipv4_Address::fromDottedQuad($this->getBroadcastAddr())->toBinary();
+    $bin_bcast = Ipv4_Address::fromString($this->getBroadcastAddr())->toBinary();
     $bin_last = (str_pad(substr($bin_bcast,0,31),32,0));
-    return Ipv4_Address::fromBinary($bin_last)->toDottedQuad();
+    return Ipv4_Address::fromBinary($bin_last)->toString();
   }
 
   /**
@@ -234,9 +245,9 @@ class Ipv4_Subnet
    * @return string
    */
   public function getBroadcastAddr() {
-    $bin_host = Ipv4_Address::fromDecimal($this->nw)->toBinary();
+    $bin_host = Ipv4_Address::fromLong($this->nw)->toBinary();
     $bin_bcast = str_pad(substr($bin_host,0,$this->getNetmaskCidr()),32,1);
-    return Ipv4_Address::fromBinary($bin_bcast)->toDottedQuad();
+    return Ipv4_Address::fromBinary($bin_bcast)->toString();
   }
 
   /**
@@ -258,6 +269,10 @@ class Ipv4_Subnet
    * @return Ipv4_SubnetIterator
    */
   public function getIterator() {
+
+    if (!class_exists('Ipv4_SubnetIterator'))
+      require_once(dirname(__FILE__).'/SubnetIterator.php');
+
     return new Ipv4_SubnetIterator($this);
   }
 
@@ -274,5 +289,16 @@ class Ipv4_Subnet
       $this->getNetwork(),
       $this->getNetmaskCidr()
     );
+  }
+
+  /**
+   * count 
+   * Implements Countable interface
+   * 
+   * @access public
+   * @return void
+   */
+  public function count() {
+    return $this->getTotalHosts();
   }
 }

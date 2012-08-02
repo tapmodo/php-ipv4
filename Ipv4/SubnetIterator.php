@@ -1,5 +1,16 @@
 <?php /* vim: set ts=2 sw=2 tw=0 et :*/
 
+/**
+ * Ipv4_SubnetIterator 
+ * An object that implements a subnet iterator
+ * 
+ * @uses Iterator
+ * @package Ipv4
+ * @version $id$
+ * @copyright 2012 Kelly Hallman
+ * @author Kelly Hallman
+ * @license MIT
+ */
 class Ipv4_SubnetIterator implements Iterator
 {
   private $position = 0;
@@ -7,10 +18,8 @@ class Ipv4_SubnetIterator implements Iterator
   private $hi_dec;
 
   public function __construct(Ipv4_Subnet $subnet) {
-    $first = $subnet->getFirstHostAddr();
-    $this->low_dec = Ipv4_Address::fromDottedQuad($first)->toDecimal();
-    $last = $subnet->getLastHostAddr();
-    $this->hi_dec = Ipv4_Address::fromDottedQuad($last)->toDecimal();
+    $this->low_dec = ip2long($subnet->getFirstHostAddr());
+    $this->hi_dec = ip2long($subnet->getLastHostAddr());
   }
 
   function rewind() {

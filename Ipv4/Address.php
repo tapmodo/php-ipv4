@@ -3,10 +3,10 @@
 class Ipv4_Address
 {
   private $ip_long;
-  const ERROR_ADDR_FORMAT = 'Dotted quad format error';
+  const ERROR_ADDR_FORMAT = 'IP address string format error';
 
   /**
-   * fromDottedQuad
+   * fromString
    * Creates Ipv4_Address object from a standard dotted-quad IP address
    *
    * @param string $data
@@ -14,13 +14,13 @@ class Ipv4_Address
    * @access public
    * @return Ipv4_Address
    */
-  static function fromDottedQuad($data) {
+  static function fromString($data) {
     if ($long = ip2long($data)) return new self($long);
     throw new Exception(self::ERROR_ADDR_FORMAT);
   }
 
   /**
-   * fromDecimal
+   * fromLong
    * Creates Ipv4_Address object from a decimal (long) address
    *
    * @param real $data
@@ -28,7 +28,7 @@ class Ipv4_Address
    * @access public
    * @return Ipv4_Address
    */
-  static function fromDecimal($data) {
+  static function fromLong($data) {
     return new self((real)$data);
   }
 
@@ -46,24 +46,24 @@ class Ipv4_Address
   }
 
   /**
-   * toDottedQuad
+   * toString
    * Returns value as dotted quad IP address
    *
    * @access public
    * @return string
    */
-  public function toDottedQuad() {
+  public function toString() {
     return long2ip($this->ip_long);
   }
 
   /**
-   * toDecimal
+   * toLong
    * Returns value as decimal (long) address
    *
    * @access public
    * @return real
    */
-  public function toDecimal() {
+  public function toLong() {
     return $this->ip_long;
   }
 
@@ -86,7 +86,7 @@ class Ipv4_Address
    * @return string
    */
   public function __toString() {
-    return $this->toDottedQuad();
+    return $this->toString();
   }
 
   /**
