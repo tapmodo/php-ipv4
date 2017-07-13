@@ -62,6 +62,16 @@ class SubnetTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers \ColinODell\Ipv4\Subnet::__construct()
+     * @covers \ColinODell\Ipv4\Subnet::setNetmask()
+     */
+    public function testInvalidConstructorNetmask()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $subnet = new Subnet('192.168.1.0', '12.34.56.78');
+    }
+
+    /**
      * @covers \ColinODell\Ipv4\Subnet::cidrToIp()
      */
     public function testCidrToIp()
