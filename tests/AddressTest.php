@@ -9,11 +9,22 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers \ColinODell\Ipv4\Address::fromString()
      * @covers \ColinODell\Ipv4\Address::toString()
+     * @covers \ColinODell\Ipv4\Address::__toString()
      */
     public function testFromString()
     {
         $address = Address::fromString('127.0.0.1');
         $this->assertEquals('127.0.0.1', $address->toString());
+        $this->assertEquals('127.0.0.1', $address->__toString());
+    }
+
+    /**
+     * @covers \ColinODell\Ipv4\Address::fromString()
+     */
+    public function testFromStringWithInvalidIp()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        Address::fromString('localhost');
     }
 
     /**
