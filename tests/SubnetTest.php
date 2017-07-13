@@ -57,6 +57,7 @@ class SubnetTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \ColinODell\Ipv4\Subnet::__construct()
+     * @covers \ColinODell\Ipv4\Subnet::setFromString()
      */
     public function testInvalidConstructor()
     {
