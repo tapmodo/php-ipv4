@@ -77,7 +77,7 @@ class SubnetTest extends \PHPUnit_Framework_TestCase
     {
         $subnet = new Subnet('192.168.1.0/24');
 
-        $this->assertInstanceOf(\Iterator::class, $subnet->getIterator());
+        $this->assertInstanceOf('Iterator', $subnet->getIterator());
 
         // Test that we can actually iterate
         foreach ($subnet as $ip) {
