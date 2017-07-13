@@ -9,6 +9,7 @@ class SubnetTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers \ColinODell\Ipv4\Subnet::__construct()
+     * @covers \ColinODell\Ipv4\Subnet::fromString()
      * @covers \ColinODell\Ipv4\Subnet::getNetwork()
      * @covers \ColinODell\Ipv4\Subnet::getNetmaskCidr()
      * @covers \ColinODell\Ipv4\Subnet::getNetmask()
