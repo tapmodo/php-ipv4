@@ -1,0 +1,33 @@
+{
+    "name": "colinodell/ipv4",
+    "description": "IPv4 classes for PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Colin O'Dell",
+            "email": "colinodell@gmail.com"
+        },
+        {
+            "name": "Kelly Hallman",
+            "email": "khallman@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.3.3|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ColinODell\\Ipv4\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ColinODell\\Ipv4\\Test\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8|^5.0",
+        "scrutinizer/ocular": "^1.1"
+    }
+}

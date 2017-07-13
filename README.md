@@ -1,41 +1,66 @@
-# IPv4 classes for PHP5
+# IPv4 classes for PHP
+
+[![Latest Version](https://img.shields.io/packagist/v/colinodell/ipv4.svg?style=flat-square)](https://packagist.org/packages/colinodell/ipv4)
+[![Total Downloads](https://img.shields.io/packagist/dt/colinodell/ip4v.svg?style=flat-square)](https://packagist.org/packages/colinodell/ipv4)
+[![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Build Status](https://img.shields.io/travis/colinodell/php-ipv4/master.svg?style=flat-square)](https://travis-ci.org/colinodell/php-ipv4)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/colinodell/php-ipv4.svg?style=flat-square)](https://scrutinizer-ci.com/g/colinodell/php-ipv4/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/colinodell/php-ipv4.svg?style=flat-square)](https://scrutinizer-ci.com/g/colinodell/php-ipv4)
 
 ### Purpose
 
 Identify, convert, and enumerate IPv4 IP addresses and subnets
 
+### Installation
+
+Install with Composer: `composer require colinodell/ipv4`
+
 ### Examples
 
-    $ip = Ipv4_Address::fromString('10.2.1.1');
-    $sn = Ipv4_Subnet::fromString('10.2.0.0/16');
+```php
+<?php
 
-    // Test if IP is in subnet
-    $sn->contains($ip)          // true
-    $sn->contains('10.3.1.23')  // false
-    Ipv4_Subnet::ContainsAddress($sn,$ip)
-    Ipv4_Subnet::ContainsAddress('192.168.1.0/27','192.168.1.246')
+use ColinODell\Ipv4\Address;
+use ColinODell\Ipv4\Subnet;
 
-    // Test if two IPs are on the same network
-    $netmask = '255.255.255.0';
-    Ipv4_Subnet::ContainsAddress(new Ipv4_Subnet($ip1,$netmask),$ip2)
+$ip = Address::fromString('10.2.1.1');
+$sn = Subnet::fromString('10.2.0.0/16');
 
-    // Can be written in numerous ways...
-    Ipv4_Subnet::ContainsAddress("{$ip1}/24",$ip2)
-    Ipv4_Subnet::fromString("{$ip1}/24")->contains($ip2)
+// Subnets can also be created like this:
+$sn = new Subnet('192.168.1.0/24');
+$sn = new Subnet('192.168.1.0', '255.255.255.0');
+$sn = new Subnet(Address::fromString('192.168.1.0'), Address::fromString('255.255.255.0'));
+$sn = new Subnet('192.168.1.0 255.255.255.0');
+$sn = Subnet::fromString('192.168.1.0/24');
+$sn = Subnet::fromString('192.168.1.0 255.255.255.0');
 
-    // Subnet information
-    $sn->getNetwork()
-    $sn->getNetmask()
-    $sn->getNetmaskCidr()
-    $sn->getFirstHostAddr()
-    $sn->getLastHostAddr()
-    $sn->getBroadcastAddr()
+// Test if IP is in subnet
+$sn->contains($ip)          // true
+$sn->contains('10.3.1.23')  // false
+Subnet::containsAddress($sn,$ip)
+Subnet::containsAddress('192.168.1.0/27','192.168.1.246')
 
-    // Enumerate subnet addresses
-    $ips = $sn->getIterator();
-    foreach($ips as $addr) ...
+// Test if two IPs are on the same network
+$netmask = '255.255.255.0';
+Subnet::containsAddress(new Subnet($ip1,$netmask),$ip2)
 
-    // Count number of usable IPs on subnet (implements Countable)
-    $sn->getTotalHosts()
-    $sn->count()
-    count($sn)
+// Can be written in numerous ways...
+Subnet::containsAddress("{$ip1}/24",$ip2)
+Subnet::fromString("{$ip1}/24")->contains($ip2)
+
+// Subnet information
+$sn->getNetwork()
+$sn->getNetmask()
+$sn->getNetmaskCidr()
+$sn->getFirstHostAddr()
+$sn->getLastHostAddr()
+$sn->getBroadcastAddr()
+
+// Enumerate subnet addresses
+foreach($sn as $addr) ...
+
+// Count number of usable IPs on subnet (implements Countable)
+$sn->getTotalHosts()
+$sn->count()
+count($sn)
+```
