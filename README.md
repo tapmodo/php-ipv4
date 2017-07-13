@@ -13,7 +13,7 @@ Identify, convert, and enumerate IPv4 IP addresses and subnets
 
 ### Installation
 
-composer require colinodell/ipv4:dev-master
+Install with Composer: `composer require colinodell/ipv4`
 
 ### Examples
 
