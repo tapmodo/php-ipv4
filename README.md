@@ -1,4 +1,4 @@
-# IPv4 classes for PHP5
+# IPv4 classes for PHP
 
 ### Purpose
 
