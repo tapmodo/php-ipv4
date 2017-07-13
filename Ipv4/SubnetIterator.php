@@ -1,23 +1,25 @@
-<?php /* vim: set ts=2 sw=2 tw=0 et :*/
+<?php
+
+namespace ColinODell\Ipv4;
 
 /**
- * Ipv4_SubnetIterator 
+ * SubnetIterator
  * An object that implements a subnet iterator
  * 
- * @uses Iterator
+ * @uses \Iterator
  * @package Ipv4
  * @version $id$
  * @copyright 2012 Kelly Hallman
  * @author Kelly Hallman
  * @license MIT
  */
-class Ipv4_SubnetIterator implements Iterator
+class SubnetIterator implements \Iterator
 {
   private $position = 0;
   private $low_dec;
   private $hi_dec;
 
-  public function __construct(Ipv4_Subnet $subnet) {
+  public function __construct(Subnet $subnet) {
     $this->low_dec = ip2long($subnet->getFirstHostAddr());
     $this->hi_dec = ip2long($subnet->getLastHostAddr());
   }

@@ -1,17 +1,16 @@
-<?php /* vim: set ts=2 sw=2 tw=0 et :*/
+<?php
 
-if (!class_exists('Ipv4_Address'))
-  require_once(dirname(__FILE__).'/Address.php');
+namespace ColinODell\Ipv4;
 
 /**
- * Ipv4_Subnet 
+ * Subnet
  * Class for identifying and enumerating an IPv4 Subnet
  * 
  * @uses Countable
  * @package Ipv4
  * @license MIT
  */
-class Ipv4_Subnet implements Countable
+class Subnet implements \Countable
 {
   /**
    * Define some error messages as class constants
@@ -48,8 +47,8 @@ class Ipv4_Subnet implements Countable
    * @return void
    */
   public function __construct($n=null,$s=null) {
-    if ($n instanceof Ipv4_Address) $n = $n->toString();
-    if ($s instanceof Ipv4_Address) $s = $s->toString();
+    if ($n instanceof Address) $n = $n->toString();
+    if ($s instanceof Address) $s = $s->toString();
     if (is_string($n) and !$s) $this->setFromString($n);
       elseif ($n and $s) $this->setNetwork($n)->setNetmask($s);
   }
@@ -61,10 +60,10 @@ class Ipv4_Subnet implements Countable
    * @param mixed $data
    * @static
    * @access public
-   * @return Ipv4_Subnet
+   * @return Subnet
    */
   static function fromString($data) {
-    return new Ipv4_Subnet($data);
+    return new Subnet($data);
   }
 
   /**
@@ -78,7 +77,7 @@ class Ipv4_Subnet implements Countable
    */
   static function CIDRtoIP($cidr) {
     if (!($cidr >= 0 and $cidr <= 32))
-      throw new Exception(self::ERROR_CIDR_FORMAT);
+      throw new \Exception(self::ERROR_CIDR_FORMAT);
 
     return long2ip(bindec(str_pad(str_pad('', $cidr, '1'), 32, '0')));
   }
@@ -94,10 +93,10 @@ class Ipv4_Subnet implements Countable
    * @return bool
    */
   static function ContainsAddress($sn,$ip) {
-    if (is_string($sn)) $sn = Ipv4_Subnet::fromString($sn);
-    if (is_string($ip)) $ip = Ipv4_Address::fromString($ip);
-    if (!$sn instanceof Ipv4_Subnet) throw new Exception(self::ERROR_SUBNET_FORMAT);
-    if (!$ip instanceof Ipv4_Address) throw new Exception(Ipv4_Address::ERROR_ADDR_FORMAT);
+    if (is_string($sn)) $sn = Subnet::fromString($sn);
+    if (is_string($ip)) $ip = Address::fromString($ip);
+    if (!$sn instanceof Subnet) throw new \Exception(self::ERROR_SUBNET_FORMAT);
+    if (!$ip instanceof Address) throw new \Exception(Address::ERROR_ADDR_FORMAT);
     $sn_dec = ip2long($sn->getNetmask());
 
     return (($ip->toLong() & $sn_dec) == (ip2long($sn->getNetwork()) & $sn_dec));
@@ -114,7 +113,7 @@ class Ipv4_Subnet implements Countable
   public function setFromString($data) {
     // Validate that the input matches an expected pattern
     if (!preg_match('!^([0-9]{1,3}\.){3}[0-9]{1,3}(( ([0-9]{1,3}\.){3}[0-9]{1,3})|(/[0-9]{1,2}))$!',$data))
-      throw new Exception(self::ERROR_NETWORK_FORMAT);
+      throw new \Exception(self::ERROR_NETWORK_FORMAT);
 
     // Parse one of two formats possible, first is /CIDR format
     if (strpos($data,'/')) {
@@ -154,7 +153,7 @@ class Ipv4_Subnet implements Countable
    * @return self
    */
   public function setNetwork($data) {
-    $this->nw = Ipv4_Address::fromString($data)->toLong();
+    $this->nw = Address::fromString($data)->toLong();
     return $this;
   }
 
@@ -167,10 +166,10 @@ class Ipv4_Subnet implements Countable
    * @return self
    */
   public function setNetmask($data) {
-    $data = Ipv4_Address::fromString($data);
+    $data = Address::fromString($data);
 
     if (!preg_match('/^1*0*$/',$data->toBinary()))
-      throw new Exception(self::ERROR_SUBNET_FORMAT);
+      throw new \Exception(self::ERROR_SUBNET_FORMAT);
 
     $this->sn = $data->toLong();
     return $this;
@@ -206,9 +205,9 @@ class Ipv4_Subnet implements Countable
    * @return string
    */
   public function getNetwork() {
-    $nw_bin = Ipv4_Address::fromLong($this->nw)->toBinary();
+    $nw_bin = Address::fromLong($this->nw)->toBinary();
     $nw_bin = (str_pad(substr($nw_bin,0,$this->getNetmaskCidr()),32,0));
-    return Ipv4_Address::fromBinary($nw_bin)->toString();
+    return Address::fromBinary($nw_bin)->toString();
   }
 
   /**
@@ -219,9 +218,9 @@ class Ipv4_Subnet implements Countable
    * @return string
    */
   public function getFirstHostAddr() {
-    $bin_net = Ipv4_Address::fromString($this->getNetwork())->toBinary();
+    $bin_net = Address::fromString($this->getNetwork())->toBinary();
     $bin_first = (str_pad(substr($bin_net,0,31),32,1));
-    return Ipv4_Address::fromBinary($bin_first)->toString();
+    return Address::fromBinary($bin_first)->toString();
   }
 
   /**
@@ -232,9 +231,9 @@ class Ipv4_Subnet implements Countable
    * @return string
    */
   public function getLastHostAddr() {
-    $bin_bcast = Ipv4_Address::fromString($this->getBroadcastAddr())->toBinary();
+    $bin_bcast = Address::fromString($this->getBroadcastAddr())->toBinary();
     $bin_last = (str_pad(substr($bin_bcast,0,31),32,0));
-    return Ipv4_Address::fromBinary($bin_last)->toString();
+    return Address::fromBinary($bin_last)->toString();
   }
 
   /**
@@ -245,9 +244,9 @@ class Ipv4_Subnet implements Countable
    * @return string
    */
   public function getBroadcastAddr() {
-    $bin_host = Ipv4_Address::fromLong($this->nw)->toBinary();
+    $bin_host = Address::fromLong($this->nw)->toBinary();
     $bin_bcast = str_pad(substr($bin_host,0,$this->getNetmaskCidr()),32,1);
-    return Ipv4_Address::fromBinary($bin_bcast)->toString();
+    return Address::fromBinary($bin_bcast)->toString();
   }
 
   /**
@@ -266,14 +265,14 @@ class Ipv4_Subnet implements Countable
    * Returns an iterator for addresses in this subnet
    *
    * @access public
-   * @return Ipv4_SubnetIterator
+   * @return SubnetIterator
    */
   public function getIterator() {
 
-    if (!class_exists('Ipv4_SubnetIterator'))
+    if (!class_exists('SubnetIterator'))
       require_once(dirname(__FILE__).'/SubnetIterator.php');
 
-    return new Ipv4_SubnetIterator($this);
+    return new SubnetIterator($this);
   }
 
   /**

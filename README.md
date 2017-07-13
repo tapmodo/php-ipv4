@@ -4,24 +4,29 @@
 
 Identify, convert, and enumerate IPv4 IP addresses and subnets
 
+### Installation
+
 ### Examples
 
-    $ip = Ipv4_Address::fromString('10.2.1.1');
-    $sn = Ipv4_Subnet::fromString('10.2.0.0/16');
+    use ColinODell\Ipv4\Address;
+    use ColinODell\Ipv4\Subnet;
+
+    $ip = Address::fromString('10.2.1.1');
+    $sn = Subnet::fromString('10.2.0.0/16');
 
     // Test if IP is in subnet
     $sn->contains($ip)          // true
     $sn->contains('10.3.1.23')  // false
-    Ipv4_Subnet::ContainsAddress($sn,$ip)
-    Ipv4_Subnet::ContainsAddress('192.168.1.0/27','192.168.1.246')
+    Subnet::ContainsAddress($sn,$ip)
+    Subnet::ContainsAddress('192.168.1.0/27','192.168.1.246')
 
     // Test if two IPs are on the same network
     $netmask = '255.255.255.0';
-    Ipv4_Subnet::ContainsAddress(new Ipv4_Subnet($ip1,$netmask),$ip2)
+    Subnet::ContainsAddress(new Subnet($ip1,$netmask),$ip2)
 
     // Can be written in numerous ways...
-    Ipv4_Subnet::ContainsAddress("{$ip1}/24",$ip2)
-    Ipv4_Subnet::fromString("{$ip1}/24")->contains($ip2)
+    Subnet::ContainsAddress("{$ip1}/24",$ip2)
+    Subnet::fromString("{$ip1}/24")->contains($ip2)
 
     // Subnet information
     $sn->getNetwork()

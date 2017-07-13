@@ -1,6 +1,8 @@
-<?php /* vim: set ts=2 sw=2 tw=0 et :*/
+<?php
 
-class Ipv4_Address
+namespace ColinODell\Ipv4;
+
+class Address
 {
   private $ip_long;
   const ERROR_ADDR_FORMAT = 'IP address string format error';
@@ -12,11 +14,11 @@ class Ipv4_Address
    * @param string $data
    * @static
    * @access public
-   * @return Ipv4_Address
+   * @return Address
    */
   static function fromString($data) {
     if ($long = ip2long($data)) return new self($long);
-    throw new Exception(self::ERROR_ADDR_FORMAT);
+    throw new \Exception(self::ERROR_ADDR_FORMAT);
   }
 
   /**
@@ -26,7 +28,7 @@ class Ipv4_Address
    * @param real $data
    * @static
    * @access public
-   * @return Ipv4_Address
+   * @return Address
    */
   static function fromLong($data) {
     return new self((real)$data);
@@ -39,7 +41,7 @@ class Ipv4_Address
    * @param string $data
    * @static
    * @access public
-   * @return Ipv4_Address
+   * @return Address
    */
   static function fromBinary($data) {
     return new self(bindec($data));

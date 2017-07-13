@@ -1,0 +1,24 @@
+{
+    "name": "colinodell/ipv4",
+    "description": "IPv4 classes for PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Colin O'Dell",
+            "email": "colinodell@gmail.com"
+        },
+        {
+            "name": "Kelly Hallman",
+            "email": "khallman@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.3|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ColinODell\\Ip4v\\": "Ipv4/"
+        }
+    }
+}
