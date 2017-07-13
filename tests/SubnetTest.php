@@ -30,6 +30,8 @@ class SubnetTest extends \PHPUnit_Framework_TestCase
         $subnets[] = new Subnet('192.168.1.0', '255.255.255.0');
         $subnets[] = new Subnet(Address::fromString('192.168.1.0'), Address::fromString('255.255.255.0'));
         $subnets[] = new Subnet('192.168.1.0 255.255.255.0');
+        $subnets[] = Subnet::fromString('192.168.1.0/24');
+        $subnets[] = Subnet::fromString('192.168.1.0 255.255.255.0');
 
         $previousSubnet = null;
         foreach ($subnets as $subnet) {

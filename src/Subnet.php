@@ -52,6 +52,16 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param string $str
+     *
+     * @return self
+     */
+    public static function fromString($str)
+    {
+        return new self($str);
+    }
+
+    /**
      * Static method converts CIDR to dotted-quad IP notation.
      *
      * @param int $cidr

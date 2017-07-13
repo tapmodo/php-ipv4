@@ -26,6 +26,14 @@ use ColinODell\Ipv4\Subnet;
 $ip = Address::fromString('10.2.1.1');
 $sn = Subnet::fromString('10.2.0.0/16');
 
+// Subnets can also be created like this:
+$sn = new Subnet('192.168.1.0/24');
+$sn = new Subnet('192.168.1.0', '255.255.255.0');
+$sn = new Subnet(Address::fromString('192.168.1.0'), Address::fromString('255.255.255.0'));
+$sn = new Subnet('192.168.1.0 255.255.255.0');
+$sn = Subnet::fromString('192.168.1.0/24');
+$sn = Subnet::fromString('192.168.1.0 255.255.255.0');
+
 // Test if IP is in subnet
 $sn->contains($ip)          // true
 $sn->contains('10.3.1.23')  // false
