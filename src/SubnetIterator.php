@@ -3,7 +3,7 @@
 namespace ColinODell\Ipv4;
 
 /**
- * An object that implements a subnet iterator
+ * An object that implements a subnet iterator.
  */
 class SubnetIterator implements \Iterator
 {
@@ -44,7 +44,6 @@ class SubnetIterator implements \Iterator
 
     public function valid()
     {
-        return (($this->low_dec + $this->position) <= $this->hi_dec);
+        return ($this->low_dec + $this->position) <= $this->hi_dec;
     }
 }
-

@@ -85,6 +85,5 @@ class SubnetTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->fail('Failed to iterate');
-
     }
 }

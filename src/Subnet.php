@@ -3,33 +3,33 @@
 namespace ColinODell\Ipv4;
 
 /**
- * Class for identifying and enumerating an IPv4 Subnet
+ * Class for identifying and enumerating an IPv4 Subnet.
  */
 class Subnet implements \Countable, \IteratorAggregate
 {
     /**
-     * Define some error messages as class constants
+     * Define some error messages as class constants.
      */
     const ERROR_NETWORK_FORMAT = 'IP format incorrect';
     const ERROR_CIDR_FORMAT = 'Invalid CIDR format';
     const ERROR_SUBNET_FORMAT = 'Invalid Subnet format';
 
     /**
-     * Internal storage of network in long format
+     * Internal storage of network in long format.
      *
      * @var float
      */
     private $nw = 0;
 
     /**
-     * Internal storage of subnet in long format
+     * Internal storage of subnet in long format.
      *
      * @var float
      */
     private $sn = 0;
 
     /**
-     * Public constructor
+     * Public constructor.
      *
      * @param mixed $n Network
      * @param mixed $s Subnet
@@ -52,7 +52,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Static method converts CIDR to dotted-quad IP notation
+     * Static method converts CIDR to dotted-quad IP notation.
      *
      * @param int $cidr
      *
@@ -68,7 +68,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Static method to determine if an IP is on a subnet
+     * Static method to determine if an IP is on a subnet.
      *
      * @param mixed $sn
      * @param mixed $ip
@@ -78,14 +78,14 @@ class Subnet implements \Countable, \IteratorAggregate
     public static function containsAddress($sn, $ip)
     {
         if (is_string($sn)) {
-            $sn = new Subnet($sn);
+            $sn = new self($sn);
         }
 
         if (is_string($ip)) {
             $ip = Address::fromString($ip);
         }
 
-        if (!$sn instanceof Subnet) {
+        if (!$sn instanceof self) {
             throw new \InvalidArgumentException(self::ERROR_SUBNET_FORMAT);
         }
 
@@ -95,11 +95,11 @@ class Subnet implements \Countable, \IteratorAggregate
 
         $sn_dec = ip2long($sn->getNetmask());
 
-        return (($ip->toLong() & $sn_dec) == (ip2long($sn->getNetwork()) & $sn_dec));
+        return ($ip->toLong() & $sn_dec) == (ip2long($sn->getNetwork()) & $sn_dec);
     }
 
     /**
-     * Parse subnet string
+     * Parse subnet string.
      *
      * @param string $data
      *
@@ -130,7 +130,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Method to check if an IP is on this network
+     * Method to check if an IP is on this network.
      *
      * @param mixed $ip
      *
@@ -142,7 +142,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Set the network on the object, from dotted-quad notation
+     * Set the network on the object, from dotted-quad notation.
      *
      * @param string $data
      *
@@ -156,7 +156,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Set the netmask on the object, from dotted-quad notation
+     * Set the netmask on the object, from dotted-quad notation.
      *
      * @param string $data
      *
@@ -176,7 +176,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return the netmask as dotted-quad string
+     * Return the netmask as dotted-quad string.
      *
      * @return string
      */
@@ -186,7 +186,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return the CIDR value representing the netmask
+     * Return the CIDR value representing the netmask.
      *
      * @return int
      */
@@ -196,7 +196,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return the network address in dotted-quad notation
+     * Return the network address in dotted-quad notation.
      *
      * @return string
      */
@@ -209,7 +209,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return the first address of this network
+     * Return the first address of this network.
      *
      * @return string
      */
@@ -222,7 +222,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return last host of this network
+     * Return last host of this network.
      *
      * @return string
      */
@@ -235,7 +235,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return the broadcast address for this network
+     * Return the broadcast address for this network.
      *
      * @return string
      */
@@ -252,17 +252,17 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Return a count of the total number of hosts on this network
+     * Return a count of the total number of hosts on this network.
      *
      * @return int
      */
     public function getTotalHosts()
     {
-        return (bindec(str_pad('', (32 - $this->getNetmaskCidr()), 1)) - 1);
+        return bindec(str_pad('', (32 - $this->getNetmaskCidr()), 1)) - 1;
     }
 
     /**
-     * Return an iterator for addresses in this subnet
+     * Return an iterator for addresses in this subnet.
      *
      * @return SubnetIterator
      */
@@ -272,7 +272,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Magic method prints subnet in IP/cidr format
+     * Magic method prints subnet in IP/cidr format.
      *
      * @return string
      */
@@ -282,7 +282,7 @@ class Subnet implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Implements Countable interface
+     * Implements Countable interface.
      *
      * @return int
      */

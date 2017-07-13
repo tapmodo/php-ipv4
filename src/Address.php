@@ -12,13 +12,13 @@ class Address
     const ERROR_ADDR_FORMAT = 'IP address string format error';
 
     /**
-     * Create Address object from a standard dotted-quad IP address
+     * Create Address object from a standard dotted-quad IP address.
      *
      * @param string $data
      *
-     * @return self
-     *
      * @throws \InvalidArgumentException
+     *
+     * @return self
      */
     public static function fromString($data)
     {
@@ -30,7 +30,7 @@ class Address
     }
 
     /**
-     * Create Address object from a decimal (long) address
+     * Create Address object from a decimal (long) address.
      *
      * @param int $data
      *
@@ -38,11 +38,11 @@ class Address
      */
     public static function fromLong($data)
     {
-        return new self((real)$data);
+        return new self((float) $data);
     }
 
     /**
-     * Create Address object from a binary address
+     * Create Address object from a binary address.
      *
      * @param string $data
      *
@@ -54,7 +54,7 @@ class Address
     }
 
     /**
-     * Return value as dotted quad IP address
+     * Return value as dotted quad IP address.
      *
      * @return string
      */
@@ -64,7 +64,7 @@ class Address
     }
 
     /**
-     * Return value as decimal (long) address
+     * Return value as decimal (long) address.
      *
      * @return float
      */
@@ -74,7 +74,7 @@ class Address
     }
 
     /**
-     * Return binary representation of address
+     * Return binary representation of address.
      *
      * @return string
      */
@@ -84,7 +84,7 @@ class Address
     }
 
     /**
-     * Return dotted quad IP address
+     * Return dotted quad IP address.
      *
      * @return string
      */
@@ -94,7 +94,7 @@ class Address
     }
 
     /**
-     * Private constructor
+     * Private constructor.
      *
      * @param float $long
      */
