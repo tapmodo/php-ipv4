@@ -1,5 +1,12 @@
 # IPv4 classes for PHP
 
+[![Latest Version](https://img.shields.io/packagist/v/colinodell/ip4v.svg?style=flat-square)](https://packagist.org/packages/colinodell/ip4v)
+[![Total Downloads](https://img.shields.io/packagist/dt/colinodell/ip4v.svg?style=flat-square)](https://packagist.org/packages/colinodell/ip4v)
+[![Software License](https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square)](LICENSE)
+[![Build Status](https://img.shields.io/travis/colinodell/php-ip4v/master.svg?style=flat-square)](https://travis-ci.org/colinodell/php-ip4v)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/colinodell/php-ip4v.svg?style=flat-square)](https://scrutinizer-ci.com/g/colinodell/php-ip4v/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/colinodell/php-ip4v.svg?style=flat-square)](https://scrutinizer-ci.com/g/colinodell/php-ip4v)
+
 ### Purpose
 
 Identify, convert, and enumerate IPv4 IP addresses and subnets
