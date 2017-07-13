@@ -24,7 +24,7 @@ class SubnetIteratorTest extends \PHPUnit_Framework_TestCase
     {
         $iterator = new SubnetIterator(new Subnet('192.168.1.0/24'));
 
-        $ips = [];
+        $ips = array();
         foreach ($iterator as $k => $ip) {
             $ips[] = $ip;
         }
